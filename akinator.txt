@@ -1,0 +1,5 @@
+1,1,tipo planta
+1,1,tipo veneno
+0,0,venusour
+0,0,bulbasur
+0,0,pikachu
