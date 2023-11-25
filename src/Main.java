@@ -42,7 +42,7 @@ public class Main {
 
     static void saveLearn() {
         try {
-            BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator.txt"));
+            BufferedWriter file = new BufferedWriter(new FileWriter("src/com/util/akinator.txt"));
             A1.preOrden();
             file.close();
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class Main {
     static void loadLearn() {
         try {
             int numRegistro = 0;
-            BufferedReader archivo = new BufferedReader(new FileReader("src/akinator.txt"));
+            BufferedReader archivo = new BufferedReader(new FileReader("src/com/util/akinator.txt"));
             String linea;
             while ((linea = archivo.readLine()) != null) {
                 String[] partes = linea.split(",");
