@@ -71,30 +71,6 @@ class CBTNodo {
         }
     }
 
-    void preOrdenNombre(BufferedWriter file) throws IOException {
-        file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
-
-        if (pSi != null) {
-            pSi.preOrdenNombre(file);
-        }
-
-        if (pNo != null) {
-            pNo.preOrdenNombre(file);
-        }
-    }
-
-    void preOrdenCaracteristica(BufferedWriter file) throws IOException {
-        file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
-
-        if (pSi != null) {
-            pSi.preOrdenCaracteristica(file);
-        }
-
-        if (pNo != null) {
-            pNo.preOrdenCaracteristica(file);
-        }
-    }
-
     private void preOrden(BufferedWriter file) throws IOException {
         file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
 
@@ -163,33 +139,6 @@ class CArbol {
         }
     }
 
-    void preOrdenNombre() {
-        if (pRaiz == null) {
-            System.out.println("No hay información para consultar");
-        } else {
-            try {
-                BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator_nombre.txt"));
-                pRaiz.preOrdenNombre(file);
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    void preOrdenCaracteristica() {
-        if (pRaiz == null) {
-            System.out.println("No hay información para consultar");
-        } else {
-            try {
-                BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator_caracteristica.txt"));
-                pRaiz.preOrdenCaracteristica(file);
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
 
 class Utilidades {
