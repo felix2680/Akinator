@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -5,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 class CBTNodo {
+
     String fdata;
     CBTNodo pSi;
     CBTNodo pNo;
@@ -37,25 +39,29 @@ class CBTNodo {
         } else {
             System.out.println("¿" + fdata + "?");
             opc = Utilidades.leerChar();
-            if (opc == 'S' || opc == 's')
+            if (opc == 'S' || opc == 's') {
                 pSi.insertar(nd);
-            else
+            } else {
                 pNo.insertar(nd);
+            }
         }
     }
 
     int cuantosHijos() {
         int numHijos = 0;
-        if (pNo == null && pSi == null)
+        if (pNo == null && pSi == null) {
             numHijos = 0;
-        if ((pNo == null && pSi != null) || (pNo != null && pSi == null))
+        }
+        if ((pNo == null && pSi != null) || (pNo != null && pSi == null)) {
             numHijos = 1;
-        if (pNo != null && pSi != null)
+        }
+        if (pNo != null && pSi != null) {
             numHijos = 2;
+        }
         return numHijos;
     }
-    
-        void preOrden() {
+
+    void preOrden() {
         try {
             BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator.txt", true));
             preOrden(file);
@@ -65,18 +71,45 @@ class CBTNodo {
         }
     }
 
+    void preOrdenNombre(BufferedWriter file) throws IOException {
+        file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
+
+        if (pSi != null) {
+            pSi.preOrdenNombre(file);
+        }
+
+        if (pNo != null) {
+            pNo.preOrdenNombre(file);
+        }
+    }
+
+    void preOrdenCaracteristica(BufferedWriter file) throws IOException {
+        file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
+
+        if (pSi != null) {
+            pSi.preOrdenCaracteristica(file);
+        }
+
+        if (pNo != null) {
+            pNo.preOrdenCaracteristica(file);
+        }
+    }
+
     private void preOrden(BufferedWriter file) throws IOException {
         file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
 
-        if (pSi != null)
+        if (pSi != null) {
             pSi.preOrden(file);
+        }
 
-        if (pNo != null)
+        if (pNo != null) {
             pNo.preOrden(file);
+        }
     }
 }
 
 class CArbol {
+
     CBTNodo pRaiz;
 
     CArbol() {
@@ -113,23 +146,54 @@ class CArbol {
             } else {
                 System.out.println("¿" + pRaiz.fdata + "?");
                 opc = Utilidades.leerChar();
-                if (opc == 'S' || opc == 's')
+                if (opc == 'S' || opc == 's') {
                     pRaiz.pSi.insertar(nd);
-                else
+                } else {
                     pRaiz.pNo.insertar(nd);
+                }
             }
         }
     }
 
     void preOrden() {
-        if (pRaiz == null)
+        if (pRaiz == null) {
             System.out.println("No hay informacion para consultar");
-        else
+        } else {
             pRaiz.preOrden();
+        }
+    }
+
+    void preOrdenNombre() {
+        if (pRaiz == null) {
+            System.out.println("No hay información para consultar");
+        } else {
+            try {
+                BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator_nombre.txt"));
+                pRaiz.preOrdenNombre(file);
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    void preOrdenCaracteristica() {
+        if (pRaiz == null) {
+            System.out.println("No hay información para consultar");
+        } else {
+            try {
+                BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator_caracteristica.txt"));
+                pRaiz.preOrdenCaracteristica(file);
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
 class Utilidades {
+
     static char leerChar() {
         char c = ' ';
         try {
@@ -154,6 +218,7 @@ class Utilidades {
 }
 
 public class Main {
+
     static CArbol A1 = new CArbol();
 
     public static void main(String[] args) {
@@ -190,7 +255,7 @@ public class Main {
         }
     }
 
-    static void saveLearn() {
+     static void saveLearn() {
         try {
             BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator.txt"));
             A1.preOrden();
@@ -199,6 +264,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+    
 
     static void loadLearn() {
         try {
@@ -216,8 +282,9 @@ public class Main {
 
             archivo.close();
 
-            if (numRegistro > 0)
+            if (numRegistro > 0) {
                 A1.preOrden();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
