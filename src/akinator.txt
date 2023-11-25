@@ -1,0 +1,5 @@
+1,1,es tipo planta
+0,0,bulbasur
+1,1,es tipo fuego
+0,0,charmander
+0,0,pikachu
