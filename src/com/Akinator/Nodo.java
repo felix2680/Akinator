@@ -64,11 +64,6 @@ class Nodo {
         try {
             // Obtener la conexión a la base de datos
             try (Connection connection = ConexionMySQL.obtenerConexion()) {
-                // Eliminar todos los registros existentes en la tabla
-                String deleteSql = "DELETE FROM instrucciones";
-                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
-                    deleteStatement.executeUpdate();
-                }
                 // Llamar al método que realiza el recorrido y guarda en la base de datos
                 preOrden(connection);
             }

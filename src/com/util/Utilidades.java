@@ -41,7 +41,13 @@ public class Utilidades {
                             A1.preCarga(datos);
                         }
                     }
+                }finally{
+                    String delteSql = "DELETE FROM instrucciones";
+                    try(PreparedStatement statement = connection.prepareStatement(delteSql)){
+                        statement.executeUpdate();
+                    }
                 }
+                
             }
 
         } catch (SQLException e) {
