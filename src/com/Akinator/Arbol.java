@@ -1,9 +1,9 @@
 package com.Akinator;
 
-
 import com.util.Datos;
-import com.util.Utilidades;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Arbol {
 
@@ -14,40 +14,32 @@ public class Arbol {
         pRaiz = null;
     }
 
-    public void insertar(String nd) {
-        char opc;
-        String caracteristica;
+    public void insertar(JFrame frame) {
         if (pRaiz == null) {
             pRaiz = new Nodo();
-            System.out.println("No puedo adivinar... ");
-            System.out.println("En que estas pensando ? ");
-            nd = Utilidades.leerString();
+            JOptionPane.showMessageDialog(frame, "No puedo adivinar...");
+            String nd = JOptionPane.showInputDialog(frame, "¿En qué estás pensando?");
             pRaiz.fdata = nd;
         } else {
             if (pRaiz.cuantosHijos() == 0) {
-                System.out.println("¿ Estas pensando en " + pRaiz.fdata + "?");
-                opc = Utilidades.leerChar();
-                if (opc != 'S' && opc != 's') {
-                    System.out.println("¿En que estas pensando ? ");
-                    nd = Utilidades.leerString();
+                int opcion = JOptionPane.showConfirmDialog(frame, "¿Estás pensando en " + pRaiz.fdata + "?", "Akinator", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.NO_OPTION) {
+                    String nd = JOptionPane.showInputDialog(frame, "¿En qué estás pensando?");
                     pRaiz.pSi = new Nodo();
                     pRaiz.pSi.fdata = nd;
                     pRaiz.pNo = new Nodo();
                     pRaiz.pNo.fdata = pRaiz.fdata;
-                    System.out.println("Dame una caracteristica que tenga " + pRaiz.pSi.fdata + " y que no tenga "
-                            + pRaiz.pNo.fdata + ":");
-                    caracteristica = Utilidades.leerString();
+                    String caracteristica = JOptionPane.showInputDialog(frame, "Dame una característica que tenga " + pRaiz.pSi.fdata + " y que no tenga " + pRaiz.pNo.fdata + ":");
                     pRaiz.fdata = caracteristica;
                 } else {
-                    System.out.println("¡¡Adivine!!");
+                    JOptionPane.showMessageDialog(frame, "¡¡Adiviné!!");
                 }
             } else {
-                System.out.println("¿" + pRaiz.fdata + "?");
-                opc = Utilidades.leerChar();
-                if (opc == 'S' || opc == 's') {
-                    pRaiz.pSi.insertar(nd);
+                int opcion = JOptionPane.showConfirmDialog(frame, pRaiz.fdata + "?", "Akinator", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_OPTION) {
+                    pRaiz.pSi.insertar(frame);
                 } else {
-                    pRaiz.pNo.insertar(nd);
+                    pRaiz.pNo.insertar(frame);
                 }
             }
         }

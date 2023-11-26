@@ -1,12 +1,12 @@
 package com.Akinator;
 
-
 import com.util.Datos;
-import com.util.Utilidades;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 class Nodo {
 
@@ -20,33 +20,26 @@ class Nodo {
         pNo = null;
     }
 
-    void insertar(String nd) {
-        char opc;
-        String caracteristica;
+    void insertar(JFrame frame) {
         if (cuantosHijos() == 0) {
-            System.out.println("¿ Estas pensando en " + fdata + "?");
-            opc = Utilidades.leerChar();
-            if (opc != 'S' && opc != 's') {
-                System.out.println("¿En que estas pensando ? ");
-                nd = Utilidades.leerString();
+            int opcion = JOptionPane.showConfirmDialog(frame, "¿Estás pensando en " + fdata + "?", "Akinator", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.NO_OPTION) {
+                String nd = JOptionPane.showInputDialog(frame, "¿En qué estás pensando?");
                 pSi = new Nodo();
                 pSi.fdata = nd;
                 pNo = new Nodo();
                 pNo.fdata = fdata;
-                System.out.println("Dame una caracteristica que tenga " + pSi.fdata + " y que no tenga "
-                        + pNo.fdata + ":");
-                caracteristica = Utilidades.leerString();
+                String caracteristica = JOptionPane.showInputDialog(frame, "Dame una característica que tenga " + pSi.fdata + " y que no tenga " + pNo.fdata + ":");
                 fdata = caracteristica;
             } else {
-                System.out.println("¡¡Adivine!!");
+                JOptionPane.showMessageDialog(frame, "¡¡Adiviné!!");
             }
         } else {
-            System.out.println("¿" + fdata + "?");
-            opc = Utilidades.leerChar();
-            if (opc == 'S' || opc == 's') {
-                pSi.insertar(nd);
+            int opcion = JOptionPane.showConfirmDialog(frame, fdata + "?", "Akinator", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                pSi.insertar(frame);
             } else {
-                pNo.insertar(nd);
+                pNo.insertar(frame);
             }
         }
     }
@@ -67,9 +60,9 @@ class Nodo {
 
     void preOrden() {
         try {
-            try (BufferedWriter file = new BufferedWriter(new FileWriter("src/akinator.txt", true))) {
+            try (BufferedWriter file = new BufferedWriter(new FileWriter("src/com/util/akinator.txt", true))) {
                 preOrden(file);
-            }
+                }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
