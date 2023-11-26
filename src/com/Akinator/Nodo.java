@@ -1,12 +1,14 @@
 package com.Akinator;
 
+import com.Conexion.ConexionMySQL;
 import com.util.Datos;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 class Nodo {
 
@@ -60,22 +62,40 @@ class Nodo {
 
     void preOrden() {
         try {
-            try (BufferedWriter file = new BufferedWriter(new FileWriter("src/com/util/akinator.txt", true))) {
-                preOrden(file);
+            // Obtener la conexión a la base de datos
+            try (Connection connection = ConexionMySQL.obtenerConexion()) {
+                // Eliminar todos los registros existentes en la tabla
+                String deleteSql = "DELETE FROM instrucciones";
+                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
+                    deleteStatement.executeUpdate();
                 }
-        } catch (IOException e) {
+                // Llamar al método que realiza el recorrido y guarda en la base de datos
+                preOrden(connection);
+            }
+        } catch (IOException | SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void preOrden(BufferedWriter file) throws IOException {
-        file.write((pSi != null ? "1," : "0,") + (pNo != null ? "1," : "0,") + fdata + "\n");
+    private void preOrden(Connection connection) throws SQLException, IOException {
+        // Utilizar PreparedStatement para prevenir SQL injection
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO instrucciones (pSi, pNo, fdata) VALUES (?, ?, ?)")) {
+            // Establecer los valores de los parámetros
+            statement.setString(1, (pSi != null ? "1" : "0"));
+            statement.setString(2, (pNo != null ? "1" : "0"));
+            statement.setString(3, fdata);
+
+            // Ejecutar la consulta SQL
+            statement.executeUpdate();
+        }
+
+        // Llamar recursivamente para los nodos hijos
         if (pSi != null) {
-            pSi.preOrden(file);
+            pSi.preOrden(connection);
         }
 
         if (pNo != null) {
-            pNo.preOrden(file);
+            pNo.preOrden(connection);
         }
     }
 

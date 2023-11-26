@@ -1,3 +1,5 @@
+package com.Conexion;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,7 +34,7 @@ public class ConexionMySQL {
                 System.out.println("Conexión cerrada");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
