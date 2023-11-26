@@ -12,6 +12,11 @@ import java.sql.SQLException;
 
 class Nodo {
 
+    String tabla = "instrucciones";
+    String columna1 = "pSi";
+    String columna2 = "pNo";
+    String columna3 = "fdata";
+    
     String fdata;
     Nodo pSi;
     Nodo pNo;
@@ -74,7 +79,8 @@ class Nodo {
 
     private void preOrden(Connection connection) throws SQLException, IOException {
         // Utilizar PreparedStatement para prevenir SQL injection
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO instrucciones (pSi, pNo, fdata) VALUES (?, ?, ?)")) {
+        String sql = String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)", tabla, columna1, columna2, columna3);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             // Establecer los valores de los parámetros
             statement.setString(1, (pSi != null ? "1" : "0"));
             statement.setString(2, (pNo != null ? "1" : "0"));

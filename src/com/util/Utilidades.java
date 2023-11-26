@@ -11,7 +11,11 @@ import java.sql.SQLException;
 public class Utilidades {
 
     static ArrayList<Datos> datos = new ArrayList<>();
-
+    static String tabla = "instrucciones";
+    static String columna1 = "pSi";
+    static String columna2 = "pNo";
+    static String columna3 = "fdata";
+    
     public static void saveLearn(Arbol A1) {
         A1.preOrden();
     }
@@ -20,7 +24,7 @@ public class Utilidades {
         try {
             // Obtener la conexión a la base de datos
             try (Connection connection = ConexionMySQL.obtenerConexion()) {
-                String sql = "SELECT pSi, pNo, fdata FROM instrucciones";
+                String sql = String.format("SELECT %s,%s,%s FROM %s",columna1,columna2,columna3,tabla);
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
                     try (ResultSet resultSet = statement.executeQuery()) {
                         int numRegistro = 0;
@@ -42,7 +46,7 @@ public class Utilidades {
                         }
                     }
                 }finally{
-                    String delteSql = "DELETE FROM instrucciones";
+                    String delteSql = String.format("DELETE FROM %s",tabla);
                     try(PreparedStatement statement = connection.prepareStatement(delteSql)){
                         statement.executeUpdate();
                     }

@@ -2,6 +2,8 @@ package com.GUI;
 
 import com.Akinator.Arbol;
 import com.util.Utilidades;
+import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Juego extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         btnIniciar.setFont(new java.awt.Font("Round9x13", 0, 18)); // NOI18N
         btnIniciar.setText("Iniciar Juego");
@@ -94,9 +97,17 @@ public class Juego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        Utilidades.loadLearn(A1);
-        A1.insertar(this);
-        Utilidades.saveLearn(A1);
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            Utilidades.loadLearn(A1);
+            A1.insertar(new JFrame());
+            Utilidades.saveLearn(A1);
+            return null;
+        }
+    };
+
+    worker.execute();
     }//GEN-LAST:event_btnIniciarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
